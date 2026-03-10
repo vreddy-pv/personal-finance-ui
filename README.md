@@ -1,6 +1,20 @@
-# PersonalFinanceUi
+# Personal Finance UI
+
+This is the frontend for the Personal Finance Manager application. It is an Angular application that provides a user interface for managing financial transactions and categories.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.0.
+
+## Getting Started
+
+### Prerequisites
+- Node.js
+- Angular CLI
+
+### Installation
+To install the dependencies, run the following command from the root of the `personal-finance-ui` directory:
+```bash
+npm install
+```
 
 ## Development server
 
