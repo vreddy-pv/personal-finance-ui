@@ -1,19 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AddTransactionDialogComponent } from './add-transaction-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AddTransactionDialog } from './add-transaction-dialog';
-
-describe('AddTransactionDialog', () => {
-  let component: AddTransactionDialog;
-  let fixture: ComponentFixture<AddTransactionDialog>;
+describe('AddTransactionDialogComponent', () => {
+  let component: AddTransactionDialogComponent;
+  let fixture: ComponentFixture<AddTransactionDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddTransactionDialog],
+      imports: [AddTransactionDialogComponent, HttpClientTestingModule, NoopAnimationsModule],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+      ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AddTransactionDialog);
+    fixture = TestBed.createComponent(AddTransactionDialogComponent);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {
