@@ -26,7 +26,27 @@
   <div class="form-row">
     <mat-form-field appearance="outline">
       <mat-label>Category</mat-label>
-      <input matInput formControlName="category">
+      <mat-select formControlName="category">
+        <mat-option *ngFor="let category of categories" [value]="category.name">
+          {{category.name}}
+        </mat-option>
+        <mat-option value="Other">Other</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" *ngIf="form.get('category')?.value === 'Other'">
+      <mat-label>New Category</mat-label>
+      <input matInput formControlName="newCategory">
+    </mat-form-field>
+  </div>
+
+  <div class="form-row">
+    <mat-form-field appearance="outline">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option value="INCOME">Income</mat-option>
+        <mat-option value="EXPENSE">Expense</mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
 </div>

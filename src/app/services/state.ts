@@ -1,15 +1,24 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { User } from '../auth/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StateService {
+  private currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+  public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
 
-  public refresh = signal(false);
+  private refreshTransactionsSubject = new Subject<void>();
+  public refreshTransactions$ = this.refreshTransactionsSubject.asObservable();
 
   constructor() { }
 
-  public notify() {
-    this.refresh.set(!this.refresh());
+  setUser(user: User | null): void {
+    this.currentUserSubject.next(user);
+  }
+
+  notifyTransactionListChanged(): void {
+    this.refreshTransactionsSubject.next();
   }
 }

@@ -1,16 +1,20 @@
-import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideNativeDateAdapter } from '@angular/material/core';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { jwtInterceptor } from './_helpers/jwt.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZonelessChangeDetection(),
+    provideZoneChangeDetection(),
     provideRouter(routes),
-    provideHttpClient(),
-    provideNativeDateAdapter(), provideAnimationsAsync(),
+    provideHttpClient(withInterceptors([jwtInterceptor])),
+    provideNativeDateAdapter(),
+    provideAnimationsAsync(),
+    importProvidersFrom(MatDialogModule)
   ],
 };

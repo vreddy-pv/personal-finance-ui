@@ -40,4 +40,8 @@ export class ApiService {
   deleteTransaction(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/transactions/${id}`);
   }
+
+  getSummary(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/transactions/summary`);
+  }
 }

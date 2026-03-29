@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,11 +23,13 @@ import { StateService } from '../../services/state';
     MatSelectModule,
     CommonModule,
     MatDatepickerModule,
+    MatDialogModule
   ],
 })
 export class AddTransactionDialogComponent implements OnInit {
   form: FormGroup;
   isEditMode: boolean;
+  categories: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -42,35 +44,65 @@ export class AddTransactionDialogComponent implements OnInit {
       description: [this.data?.description || ''],
       amount: [this.data?.amount || ''],
       category: [this.data?.category?.name || ''],
+      newCategory: [''],
+      type: [this.data?.type || ''],
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadCategories();
+    this.stateService.refreshTransactions$.subscribe(() => {
+      this.loadCategories();
+    });
+  }
+
+  loadCategories() {
+    this.apiService.getAllCategories().subscribe(data => {
+      this.categories = data;
+    });
+  }
 
   save() {
-    const { date, description, amount, category } = this.form.value;
+    const { date, description, amount, category, newCategory, type } = this.form.value;
+    const isNewCategory = category === 'Other';
+    const categoryToSave = isNewCategory ? newCategory : category;
 
-    this.apiService.addCategory({ name: category }).subscribe((newCategory) => {
-      const transaction = {
-        id: this.data?.id,
-        date,
-        description,
-        amount,
-        category: newCategory,
-      };
+    const transaction = {
+      id: this.data?.id,
+      date,
+      description,
+      amount,
+      category: { name: categoryToSave },
+      type
+    };
 
-      if (this.isEditMode) {
-        this.apiService.updateTransaction(transaction.id, transaction).subscribe(() => {
-          this.stateService.notify();
+    if (isNewCategory) {
+      this.apiService.addCategory({ name: categoryToSave }).subscribe(() => {
+        this.saveTransaction(transaction);
+      });
+    } else {
+      this.saveTransaction(transaction);
+    }
+  }
+
+  saveTransaction(transaction: any) {
+    if (this.isEditMode) {
+      this.apiService.updateTransaction(transaction.id, transaction).subscribe({
+        next: () => {
+          this.stateService.notifyTransactionListChanged();
           this.dialogRef.close();
-        });
-      } else {
-        this.apiService.addTransaction(transaction).subscribe(() => {
-          this.stateService.notify();
+        },
+        error: (err) => console.error('Error updating transaction:', err)
+      });
+    } else {
+      this.apiService.addTransaction(transaction).subscribe({
+        next: () => {
+          this.stateService.notifyTransactionListChanged();
           this.dialogRef.close();
-        });
-      }
-    });
+        },
+        error: (err) => console.error('Error adding transaction:', err)
+      });
+    }
   }
 
   close() {
