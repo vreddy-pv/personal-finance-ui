@@ -6,11 +6,11 @@ type: reference
 
 ## Scripts
 
-- **Install Frontend Dependencies**: `sh scripts/install-frontend.sh`
+- **Install Frontend Dependencies**: `npm install`
   - Installs the npm dependencies for the Angular application.
 
-- **Start Frontend Development Server**: `sh scripts/start-frontend.sh`
+- **Start Frontend Development Server**: `ng serve`
   - Starts the Angular development server.
 
-- **Run Frontend Tests**: `sh scripts/test-frontend.sh`
+- **Run Frontend Tests**: `ng test --watch=false`
   - Runs the Karma/Jasmine tests for the frontend application.

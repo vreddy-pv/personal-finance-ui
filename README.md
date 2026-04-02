@@ -13,7 +13,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 ### Installation
 To install the dependencies, run the following command from the root of this directory:
 ```bash
-sh scripts/install-frontend.sh
+npm install
 ```
 
 ## Development server
@@ -21,7 +21,7 @@ sh scripts/install-frontend.sh
 To start a local development server, run:
 
 ```bash
-sh scripts/start-frontend.sh
+ng serve
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
@@ -31,11 +31,6 @@ Once the server is running, open your browser and navigate to `http://localhost:
 To execute unit tests, use the following command:
 
 ```bash
-sh scripts/test-frontend.sh
+ng test --watch=false
 ```
 
-## Scripts
-
-- `scripts/install-frontend.sh`: Installs the npm dependencies for the Angular application.
-- `scripts/start-frontend.sh`: Starts the Angular development server.
-- `scripts/test-frontend.sh`: Runs the Karma/Jasmine tests for the frontend application.

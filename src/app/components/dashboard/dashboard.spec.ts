@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Dashboard } from './dashboard';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('Dashboard', () => {
   let component: Dashboard;
@@ -8,7 +11,7 @@ describe('Dashboard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [Dashboard],
+      imports: [Dashboard, HttpClientTestingModule, RouterTestingModule, MatDialogModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Dashboard);
