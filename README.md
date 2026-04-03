@@ -34,3 +34,6 @@ To execute unit tests, use the following command:
 ng test --watch=false
 ```
 
+## Admin Dashboard
+
+The application includes an admin dashboard for managing users and categories. To access it, log in with a user that has the `ADMIN` role (the default is `admin` / `password`). A link to the dashboard will appear in the side navigation menu.
