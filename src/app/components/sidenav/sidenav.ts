@@ -7,6 +7,9 @@ import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddTransactionDialogComponent } from '../add-transaction-dialog/add-transaction-dialog';
+import { StateService } from '../../services/state.service';
+import { User } from '../../auth/user.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sidenav',
@@ -21,10 +24,19 @@ import { AddTransactionDialogComponent } from '../add-transaction-dialog/add-tra
     RouterModule,
     MatListModule,
     MatDialogModule,
+    CommonModule
   ],
 })
 export class SidenavComponent {
-  constructor(public dialog: MatDialog) {}
+  user: User | null = null;
+  isAdmin = false;
+
+  constructor(public dialog: MatDialog, private stateService: StateService) {
+    this.stateService.currentUser$.subscribe(user => {
+      this.user = user;
+      this.isAdmin = user?.role === 'ADMIN';
+    });
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AddTransactionDialogComponent, {

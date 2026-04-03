@@ -4,6 +4,8 @@ import { Dashboard } from './components/dashboard/dashboard';
 import { LoginComponent } from './auth/components/login.component';
 import { RegisterComponent } from './auth/components/register.component';
 import { AuthGuard } from './auth/auth.guard';
+import { AdminGuard } from './auth/admin.guard';
+import { AdminDashboard } from './components/admin/admin.component';
 
 export const routes: Routes = [
   {
@@ -11,10 +13,10 @@ export const routes: Routes = [
     component: SidenavComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', component: Dashboard },    ],
+      { path: '', component: Dashboard },
+      { path: 'admin', component: AdminDashboard, canActivate: [AdminGuard] }
+    ],
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 ];
-
-
